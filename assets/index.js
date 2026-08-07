@@ -1,132 +1,73 @@
 const book = document.querySelector(".book");
 const cover = document.querySelector(".cover");
-const pages = document.querySelectorAll(".page");
+const pages = [...document.querySelectorAll(".page")];
 
 let isOpen = false;
+let currentPage = 0;
 
-// Open / Close Book
+function setBookOpen(open) {
+  isOpen = open;
+  cover.style.transform = open ? "rotateY(-180deg)" : "rotateY(0deg)";
+
+  pages.forEach((page, index) => {
+    const angle = open ? -170 + index * 5 : 0;
+    page.style.transitionDelay = open ? `${(index + 1) * 0.15}s` : `${(pages.length - index) * 0.1}s`;
+    page.style.transform = `rotateY(${angle}deg)`;
+  });
+}
+
 book.addEventListener("click", () => {
-
-if (!isOpen) {
-
-cover.style.transform = "rotateY(-180deg)";
+  currentPage = isOpen ? 0 : pages.length;
+  setBookOpen(!isOpen);
+});
 
 pages.forEach((page, index) => {
-setTimeout(() => {
-
-page.style.transform =
-rotateY(${-170 + (index * 5)}deg)`;
-}, (index + 1) * 250);
+  page.addEventListener("click", (event) => {
+    event.stopPropagation();
+    page.style.transitionDelay = "0s";
+    page.style.transform = "rotateY(-180deg)";
+    currentPage = Math.max(currentPage, index + 1);
+  });
 });
 
-isOpen = true;
+function openNextPage() {
+  if (!isOpen) setBookOpen(true);
+  if (currentPage >= pages.length) return;
 
-} else {
-
-pages.forEach((page, index) => {
-setTimeout(() => {
-page.style.transform = "rotateY(0deg)";
-}, (pages.length - index) * 200);
-});
-
-setTimeout(() => {
-cover.style.transform = "rotateY(0deg)";
-}, 800);
-
-isOpen = false;
-
+  const page = pages[currentPage];
+  page.style.transitionDelay = "0s";
+  page.style.transform = "rotateY(-180deg)";
+  currentPage += 1;
 }
 
-});
+function closePreviousPage() {
+  if (currentPage <= 0) {
+    setBookOpen(false);
+    return;
+  }
 
-// =========================
-// Floating Animation
-// =========================
-
-let float = 0;
-
-function animateBook() {
-
-float += 0.02;
-
-book.style.transform =
-translateY(${Math.sin(float) * 10}px)`;
-
-requestAnimationFrame(animateBook);
-
+  currentPage -= 1;
+  const page = pages[currentPage];
+  page.style.transitionDelay = "0s";
+  page.style.transform = "rotateY(0deg)";
 }
 
-
-animateBook();
-
-
-// =========================
-// Mouse Tilt Effect
-// =========================
-
-document.addEventListener("mousemove", (e) => {
-
-let x =
-(window.innerWidth / 2 - e.pageX) / 40;
-
-let y =
-(window.innerHeight / 2 - e.pageY) / 40;
-
-book.style.rotate =
-${y}deg ${x}deg;
-
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") book.click();
+  if (event.key === "ArrowRight") openNextPage();
+  if (event.key === "ArrowLeft") closePreviousPage();
 });
 
-
-// =========================
-// Keyboard Controls
-// =========================
-
-document.addEventListener("keydown", (e) => {
-
-if (e.key === "Enter") {
-
-book.click();
-
-}
-
+document.addEventListener("mousemove", (event) => {
+  const x = (window.innerWidth / 2 - event.clientX) / 40;
+  const y = (window.innerHeight / 2 - event.clientY) / 40;
+  book.style.rotate = `${y}deg ${x}deg`;
 });
-
-
-// =========================
-// Page Flip on Click
-
-// =========================
-
-pages.forEach((page, index) => {
-
-page.addEventListener("click", (e) => {
-
-e.stopPropagation();
-
-page.style.transform =
-rotateY(-180deg);
-
-});
-
-});
-
-
-// =========================
-// Smooth Fade-in
-// =========================
 
 window.addEventListener("load", () => {
-
-document.body.style.opacity = "0";
-
-setTimeout(() => {
-
-document.body.style.transition =
-"opacity 1.2s ease";
-
-document.body.style.opacity = "1";
-
-}, 200);
-
+  document.body.style.opacity = "0";
+  document.body.style.transition = "opacity 1.2s ease";
+  requestAnimationFrame(() => {
+    document.body.style.opacity = "1";
+  });
 });

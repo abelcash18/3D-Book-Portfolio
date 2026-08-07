@@ -84,9 +84,7 @@ transform:translateY(-5px);
 box-shadow:0 15px 35px rgba(0,191,255,.4);
 }
 
-/=========================
-3D Book
-==========================/
+/* 3D Book */
 
 .book{
 width:320px;
@@ -187,6 +185,14 @@ margin:20px auto;
 border:5px solid #00bfff;
 }
 
+.profile-placeholder{
+display:grid;
+place-items:center;
+background:linear-gradient(145deg,#d9f6ff,#77d9ff);
+color:#0874a4;
+font-size:3.5rem;
+}
+
 .skill{
 margin-bottom:20px;
 }
@@ -257,9 +263,7 @@ transition-delay:.6s;
 
 }
 
-/=========================
-Floating
-==========================/
+/* Floating */
 
 .book{
 
@@ -294,9 +298,7 @@ translateY(0px);
 
 }
 
-/=========================
-Social Icons
-==========================/
+/* Social Icons */
 
 .social{
 
@@ -354,9 +356,7 @@ color:#00bfff;
 
 }
 
-/=========================
-Responsive
-==========================/
+/* Responsive */
 
 @media(max-width:991px){
 
