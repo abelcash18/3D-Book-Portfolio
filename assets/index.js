@@ -1,73 +1,25 @@
-const book = document.querySelector(".book");
-const cover = document.querySelector(".cover");
-const pages = [...document.querySelectorAll(".page")];
+const book = document.querySelector('#portfolio-book');
+const bookTriggers = document.querySelectorAll('[data-open-book]');
+let open = false;
 
-let isOpen = false;
-let currentPage = 0;
-
-function setBookOpen(open) {
-  isOpen = open;
-  cover.style.transform = open ? "rotateY(-180deg)" : "rotateY(0deg)";
-
-  pages.forEach((page, index) => {
-    const angle = open ? -170 + index * 5 : 0;
-    page.style.transitionDelay = open ? `${(index + 1) * 0.15}s` : `${(pages.length - index) * 0.1}s`;
-    page.style.transform = `rotateY(${angle}deg)`;
-  });
+function setBook(state) {
+  open = state;
+  book.classList.toggle('is-open', open);
+  book.setAttribute('aria-expanded', open);
+  book.setAttribute('aria-label', open ? 'Close portfolio book' : 'Open portfolio book');
 }
 
-book.addEventListener("click", () => {
-  currentPage = isOpen ? 0 : pages.length;
-  setBookOpen(!isOpen);
+book.addEventListener('click', () => setBook(!open));
+book.addEventListener('keydown', event => {
+  if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setBook(!open); }
+});
+bookTriggers.forEach(trigger => trigger.addEventListener('click', () => setBook(true)));
+document.addEventListener('keydown', event => {
+  if (event.key === 'ArrowRight') setBook(true);
+  if (event.key === 'ArrowLeft' || event.key === 'Escape') setBook(false);
 });
 
-pages.forEach((page, index) => {
-  page.addEventListener("click", (event) => {
-    event.stopPropagation();
-    page.style.transitionDelay = "0s";
-    page.style.transform = "rotateY(-180deg)";
-    currentPage = Math.max(currentPage, index + 1);
-  });
-});
-
-function openNextPage() {
-  if (!isOpen) setBookOpen(true);
-  if (currentPage >= pages.length) return;
-
-  const page = pages[currentPage];
-  page.style.transitionDelay = "0s";
-  page.style.transform = "rotateY(-180deg)";
-  currentPage += 1;
-}
-
-function closePreviousPage() {
-  if (currentPage <= 0) {
-    setBookOpen(false);
-    return;
-  }
-
-  currentPage -= 1;
-  const page = pages[currentPage];
-  page.style.transitionDelay = "0s";
-  page.style.transform = "rotateY(0deg)";
-}
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") book.click();
-  if (event.key === "ArrowRight") openNextPage();
-  if (event.key === "ArrowLeft") closePreviousPage();
-});
-
-document.addEventListener("mousemove", (event) => {
-  const x = (window.innerWidth / 2 - event.clientX) / 40;
-  const y = (window.innerHeight / 2 - event.clientY) / 40;
-  book.style.rotate = `${y}deg ${x}deg`;
-});
-
-window.addEventListener("load", () => {
-  document.body.style.opacity = "0";
-  document.body.style.transition = "opacity 1.2s ease";
-  requestAnimationFrame(() => {
-    document.body.style.opacity = "1";
-  });
-});
+const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+  if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
+}), { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
