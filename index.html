@@ -10,6 +10,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/index.css">
+  <style>
+    .project-visual { background: #222; }
+    .project-visual > span { color: var(--ink); background: #0a0a1299; padding: 5px 7px; }
+    .project-image { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+    .project:hover .project-image { transform: scale(1.04); }
+  </style>
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -53,9 +59,9 @@
     <section class="work section" id="work">
       <div class="section-heading reveal"><p class="eyebrow"><span></span> Selected work</p><h2>Built for the<br><em>next chapter.</em></h2><p>Thoughtful systems and sharp experiences for teams ready to be remembered.</p></div>
       <div class="projects">
-        <a class="project reveal" href="#contact"><div class="project-visual visual-blue"><span>01</span><div class="window"><i></i><i></i><i></i><b>Dewgate Consults</b></div></div><div><h3>Dewgate Consults</h3><p>Digital platform · 2025</p></div><span class="arrow">↗</span></a>
-        <a class="project reveal" href="#contact"><div class="project-visual visual-orange"><span>02</span><div class="poster">Doug-Aveifo<em>—</em></div></div><div><h3>Doug-Aveigo</h3><p>Doug-Aveigo . 2026</p></div><span class="arrow">↗</span></a>
-        <a class="project reveal" href="#contact"><div class="project-visual visual-lime"><span>03</span><div class="circle-copy">Pricing<br>Page</div></div><div><h3>Pricing Page</h3><p>platform · 2025</p></div><span class="arrow">↗</span></a>
+        <a class="project reveal" href="#contact"><div class="project-visual"><span>01</span><a href="https://frontend-drab-three-53.vercel.app"><img class="project-image" src="assets/images/Dewgate%20Consults.jpeg" alt="Dewgate Consults project preview"></div><div><h3>Dewgate Consults</h3><p>Digital platform · 2025</p></div><span class="arrow">↗</span></a>
+        <a class="project reveal" href="#contact"><div class="project-visual"><span>02</span><a href="https://abelcash18.github.io/DOUG-AVEIGO/"><img class="project-image" src="assets/images/Doug-Aveigo.png" alt="Doug-Aveigo project preview"></div><div><h3>Doug-Aveigo</h3><p>Doug-Aveigo · 2026</p></div><span class="arrow">↗</span></a>
+        <a class="project reveal" href="#contact"><div class="project-visual"><span>03</span><a href="https://abelcash18.github.io/Price-page/"><img class="project-image" src="assets/images/pricing-page.jpg" alt="Pricing Page project preview"></div><div><h3>Pricing Page</h3><p>Platform · 2026</p></div><span class="arrow">↗</span></a>
       </div>
     </section>
 
